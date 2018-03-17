@@ -1,0 +1,4 @@
+{
+  "issuer": "https://my-token-issuer/oauth2/default",
+  "client_id": "my-client-id"
+}

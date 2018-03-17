@@ -8,12 +8,25 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "vue": "^2.5.13"
+    "@okta/okta-vue": "0.0.3",
+    "axios": "^0.18.0",
+    "element-ui": "^2.2.1",
+    "js-data": "^3.0.2",
+    "js-data-http": "^3.0.0",
+    "node-sass": "^4.7.2",
+    "sass": "^1.0.0-beta.5.2",
+    "sass-loader": "^6.0.7",
+    "validator": "^9.4.1",
+    "vue": "^2.5.13",
+    "vue-axios": "^2.0.2",
+    "vue-router": "^3.0.1"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^3.0.0-beta.6",
-    "@vue/cli-plugin-eslint": "^3.0.0-beta.6",
-    "@vue/cli-service": "^3.0.0-beta.6",
+    "@vue/cli-plugin-babel": "^3.0.0-beta.3",
+    "@vue/cli-plugin-eslint": "^3.0.0-beta.3",
+    "@vue/cli-service": "^3.0.0-beta.3",
+    "pug": "^2.0.0-rc.4",
+    "pug-loader": "^2.3.0",
     "vue-template-compiler": "^2.5.13"
   },
   "babel": {
