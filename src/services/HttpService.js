@@ -2,9 +2,11 @@ import { DataStore } from 'js-data';
 import { HttpAdapter } from 'js-data-http';
 import scopeObject from './scope'
 
+const basePath = 'http://127.0.0.1:3000';
+
 const store = new DataStore();
 const httpAdapter = new HttpAdapter({
-  basePath: 'http://127.0.0.1:3000',
+  basePath: basePath,
   beforeHTTP: function (config, opts) {
     config.headers || (config.headers = {});
 
@@ -22,4 +24,13 @@ store.defineMapper('user', {
   endpoint: 'users'
 });
 
-export {store, httpAdapter}
+store.defineMapper('job', {
+  name: 'job',
+  endpoint: 'jobs'
+});
+
+httpAdapter.resourceBasePath = (resourceType, resourceId) => {
+  return `${basePath}/${resourceType}/${resourceId}/`
+}
+
+export {store, httpAdapter};

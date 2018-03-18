@@ -5,10 +5,12 @@
     button(v-else v-on:click='$auth.loginRedirect' id='login-button') Login
     router-link(v-if='!authenticated' to="/register" tag="button" id='home-button') Register
 
+    router-link(to="/jobs" tag="button" id='jobs-button') Jobs
+
     .user-info(v-if='current_user')
       .name {{current_user.firstName}} {{current_user.lastName}}
     
-    <transition name="fade">
+    transition(name="fade")
       <router-view></router-view>
     </transition>
   </div>
@@ -17,7 +19,6 @@
 <script>
 
 import scopeObject from './services/scope'
-import { store } from './services/HttpService';
 
 export default {
   name: 'app',
@@ -27,27 +28,19 @@ export default {
       current_user: null
     }
   },
-  async created () {
+  created () {
     this.isAuthenticated()
   },
   watch: {
     '$route': 'isAuthenticated'
   },
   methods: {
-    async isAuthenticated() {
-      this.authenticated = await this.$auth.isAuthenticated()
-      if (this.authenticated) {
-        const token = localStorage.getItem("okta-token-storage");
-        scopeObject.auth_token = token;
-        store.find('user', scopeObject.auth_token.idToken.claims.sub)
-          .then((user) => {
-            scopeObject.current_user = user
-            this.current_user = scopeObject.current_user
-          })
-          .catch((err) => {
-            console.warn(err)
-          })
-      }
+    isAuthenticated() {
+      this.$auth.isAuthenticated().then((result) => {
+        this.authenticated = result
+        this.current_user = scopeObject.current_user
+      })
+      
     },
     async logout() {
       await this.$auth.logout();

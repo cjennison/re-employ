@@ -3,8 +3,6 @@
 </template>
 
 <script>
-import scopeObject from '../../services/scope'
-
 export default {
   name: 'home',
   async created() {

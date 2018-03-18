@@ -23,20 +23,56 @@ Vue.use(Auth, {
   scope: 'openid profile email'
 })
 
+import scopeObject from './services/scope'
+import { store } from './services/HttpService';
+
+function defineScope(req, res, next) {
+  Vue.prototype.$auth.isAuthenticated().then((result) => {
+    if (result) {
+      const token = localStorage.getItem("okta-token-storage");
+      scopeObject.auth_token = token;
+      store.find('user', scopeObject.auth_token.idToken.claims.sub, {
+        params: {
+          fields: ['Job']
+        }  
+      })
+        .then((user) => {
+          scopeObject.current_user = user
+          next()
+        })
+        .catch((err) => {
+          console.warn(err)
+        })
+    } else {
+      next()
+    }
+  })
+}
+
 const router = new VueRouter({
   mode: 'history',
   routes: [
     {
       path: '/',
-      component: Controllers.Home
+      component: Controllers.Home,
+      beforeEnter: defineScope
     },
     {
       path: '/register',
-      component: Controllers.RegisterUser
+      component: Controllers.RegisterUser,
+      beforeEnter: defineScope
     },
     {
       path: '/dashboard',
       component: Controllers.Dashboard,
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      path: '/jobs',
+      component: Controllers.Jobs,
+      beforeEnter: defineScope,
       meta: {
         requiresAuth: true
       }
