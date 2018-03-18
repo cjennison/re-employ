@@ -7,7 +7,7 @@ class UserUpdater {
     scopeObject.auth_token = token;
     return store.find('user', scopeObject.auth_token.idToken.claims.sub, {
         params: {
-          fields: ['Job']
+          fields: ['Job', 'Role']
         },
         force: true  
       })

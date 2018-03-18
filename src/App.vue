@@ -7,6 +7,9 @@
 
     router-link(to="/jobs" tag="button" id='jobs-button') Jobs
 
+    router-link(v-if="userHasRole('admin')" to="/admin" tag="button" id='jobs-button') ADMIN
+
+
     .user-info(v-if='current_user')
       .name {{current_user.firstName}} {{current_user.lastName}}
     
@@ -35,6 +38,15 @@ export default {
     '$route': 'isAuthenticated'
   },
   methods: {
+    userHasRole(role) {
+      if (!this.current_user) {
+        return false;
+      }
+      return _.find(this.current_user.Roles, (userRole) => {
+        return userRole.name === role
+      })
+    },
+
     isAuthenticated() {
       this.$auth.isAuthenticated().then((result) => {
         this.authenticated = result

@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Controllers from './controllers';
+import Components from './components';
 
 import ElementUI from 'element-ui'
 import enLocale from 'element-ui/lib/locale/lang/en'
@@ -10,6 +11,8 @@ import VueRouter from 'vue-router'
 import axios from 'axios';
 
 import authConfig from '../config/auth.json'
+import _ from 'lodash'
+import UserUpdater from './services/UserUpdater'
 
 Vue.config.productionTip = false
 Vue.use(VueAxios, axios);
@@ -24,29 +27,50 @@ Vue.use(Auth, {
 })
 
 import scopeObject from './services/scope'
-import { store } from './services/HttpService';
 
-function defineScope(req, res, next) {
+function defineScope(to, from, next) {
   Vue.prototype.$auth.isAuthenticated().then((result) => {
     if (result) {
-      const token = localStorage.getItem("okta-token-storage");
-      scopeObject.auth_token = token;
-      store.find('user', scopeObject.auth_token.idToken.claims.sub, {
-        params: {
-          fields: ['Job']
-        }  
+      UserUpdater.updateUser().then(() => {
+        next();
+      }).catch((err) => {
+        console.warn("Could not update user", err)
+        next({
+          path: '/'
+        })
       })
-        .then((user) => {
-          scopeObject.current_user = user
-          next()
-        })
-        .catch((err) => {
-          console.warn(err)
-        })
+    } else {
+      next();
+    }
+  })
+}
+
+function checkRole(to, from, next) {
+  if (to.matched.some(record => record.meta.requiresRole != null)) {
+    const roles = _.flatten(to.matched.map((record) => record.meta.requiresRole))
+    const missingRoles = _.compact(_.map(roles, (role) => {
+      const matchingRole = _.find(scopeObject.current_user.Roles, (userRole) => {
+        return userRole.name == role
+      })
+
+      if (!matchingRole) {
+        return role
+      }
+
+      return;
+    }))
+
+    //  If there are roles missing from the user, deny the routing
+    if (missingRoles.length) {
+      console.warn("User attempted to access route", to.path, "and was denied")
+      next({
+        path: '/'
+      })
     } else {
       next()
     }
-  })
+  }
+  next()
 }
 
 const router = new VueRouter({
@@ -72,10 +96,28 @@ const router = new VueRouter({
     {
       path: '/jobs',
       component: Controllers.Jobs,
-      beforeEnter: defineScope,
       meta: {
         requiresAuth: true
       }
+    },
+    {
+      path: '/admin',
+      component: Controllers.Admin,
+      beforeEnter: defineScope,
+      meta: {
+        requiresAuth: true,
+        requiresRole: 'admin'
+      },
+      children: [
+        {
+          path: 'roles',
+          component: Components.AdminRoles
+        },
+        {
+          path: 'jobs',
+          component: Components.AdminJobs
+        }
+      ]
     },
     { 
       path: '/implicit/callback', 
@@ -85,6 +127,8 @@ const router = new VueRouter({
 })
 
 router.beforeEach(Vue.prototype.$auth.authRedirectGuard());
+router.beforeEach(defineScope);
+router.beforeEach(checkRole);
 
 new Vue({
   el: '#app',
