@@ -22,6 +22,7 @@
 <script>
 
 import scopeObject from './services/scope'
+import _ from 'lodash'
 
 export default {
   name: 'app',
