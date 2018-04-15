@@ -6,6 +6,7 @@
     router-link(v-if='!authenticated' to="/register" tag="button" id='home-button') Register
 
     router-link(to="/jobs" tag="button" id='jobs-button') Jobs
+    router-link(v-if='authenticated', to="/opportunities" tag="button" id='opportunities-button') Opportunities
 
     router-link(v-if="userHasRole('admin')" to="/admin" tag="button" id='jobs-button') ADMIN
 

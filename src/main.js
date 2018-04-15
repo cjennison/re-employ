@@ -101,6 +101,13 @@ const router = new VueRouter({
       }
     },
     {
+      path: '/opportunities',
+      component: Controllers.JobOpenings,
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
       path: '/admin',
       component: Controllers.Admin,
       beforeEnter: defineScope,
