@@ -10,7 +10,6 @@ import VueAxios from 'vue-axios';
 import VueRouter from 'vue-router'
 import axios from 'axios';
 
-import authConfig from '../config/auth.json'
 import _ from 'lodash'
 import UserUpdater from './services/UserUpdater'
 
@@ -20,9 +19,9 @@ Vue.use(ElementUI, {locale: enLocale})
 Vue.use(VueRouter)
 
 Vue.use(Auth, {
-  issuer: authConfig.issuer,
-  client_id: authConfig.client_id,
-  redirect_uri: 'http://localhost:8080/implicit/callback',
+  issuer: process.env.VUE_APP_AUTH_ISSUER,
+  client_id: process.env.VUE_APP_CLIENT_ID,
+  redirect_uri: process.env.VUE_APP_REDIRECT_URI,
   scope: 'openid profile email'
 })
 

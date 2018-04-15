@@ -2,7 +2,7 @@ import { DataStore } from 'js-data';
 import { HttpAdapter } from 'js-data-http';
 import scopeObject from './scope'
 
-const basePath = 'http://127.0.0.1:3000';
+const basePath = process.env.VUE_APP_API_URL;
 
 const store = new DataStore();
 const httpAdapter = new HttpAdapter({
