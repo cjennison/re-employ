@@ -1,6 +1,6 @@
 <template lang="pug">
     .dashboard DASHBOARD
-      #dashboardSubtitle {{ currentDate }}
+      #dashboard-subtitle {{ currentDate }}
 </template>
 
 <script>

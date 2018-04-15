@@ -21,18 +21,18 @@ const JobOpenings = [
     description: 'Catch puppies'
   },
   {
-  id: 2,
-  name: 'Lab Assistant',
-  applicationURL: 'http://reddit.com',
-  company: 'Butts',
-  description: 'Slave to the brain'
+    id: 2,
+    name: 'Lab Assistant',
+    applicationURL: 'http://reddit.com',
+    company: 'Butts',
+    description: 'Slave to the brain'
   },
   {
-  id: 3,  
-  name: 'President of the USA',
-  applicationURL: 'http://whitehouse.gov',
-  company: 'More butts',
-  description: "Don't press the nuclear button. Get paid"
+    id: 3,  
+    name: 'President of the USA',
+    applicationURL: 'http://whitehouse.gov',
+    company: 'More butts',
+    description: "Don't press the nuclear button. Get paid"
   }
 ]
 
