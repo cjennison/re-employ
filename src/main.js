@@ -13,6 +13,8 @@ import axios from 'axios';
 import _ from 'lodash'
 import UserUpdater from './services/UserUpdater'
 
+console.log(process.env)
+
 Vue.config.productionTip = false
 Vue.use(VueAxios, axios);
 Vue.use(ElementUI, {locale: enLocale})
