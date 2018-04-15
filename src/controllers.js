@@ -4,6 +4,7 @@ import RegisterUser from './components/controllers/RegisterUser.vue'
 import Dashboard from './components/controllers/Dashboard.vue'
 import Jobs from './components/controllers/Jobs.vue'
 import Admin from './components/controllers/Admin.vue'
+import JobOpenings from './components/controllers/JobOpenings.vue'
 
 export default {
   App,
@@ -11,5 +12,6 @@ export default {
   RegisterUser,
   Dashboard,
   Jobs,
-  Admin
+  Admin,
+  JobOpenings
 }
