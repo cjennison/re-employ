@@ -6,7 +6,7 @@
     "serve": "vue-cli-service serve --open",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "start": "node index.js"
+    "start": "vue-cli-service build; node index.js;"
   },
   "dependencies": {
     "@okta/okta-vue": "0.0.3",
