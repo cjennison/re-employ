@@ -2,22 +2,22 @@ import Vue from 'vue'
 import Controllers from './controllers';
 import Components from './components';
 
-import ElementUI from 'element-ui'
-import enLocale from 'element-ui/lib/locale/lang/en'
-import Auth from '@okta/okta-vue'
+import ElementUI from 'element-ui';
+import enLocale from 'element-ui/lib/locale/lang/en';
+import Auth from '@okta/okta-vue';
 
 import VueAxios from 'vue-axios';
-import VueRouter from 'vue-router'
-import axios from 'axios';
+import VueRouter from 'vue-router';
+import axios from 'axios';;
 
-import _ from 'lodash'
-import UserUpdater from './services/UserUpdater'
+import _ from 'lodash';
+import UserUpdater from './services/UserUpdater';
 
 console.log(process.env)
 
 Vue.config.productionTip = false
 Vue.use(VueAxios, axios);
-Vue.use(ElementUI, {locale: enLocale})
+Vue.use(ElementUI, { locale: enLocale })
 Vue.use(VueRouter)
 
 Vue.use(Auth, {
@@ -35,7 +35,7 @@ function defineScope(to, from, next) {
       UserUpdater.updateUser().then(() => {
         next();
       }).catch((err) => {
-        console.warn("Could not update user", err)
+        console.warn('Could not update user', err)
         next({
           path: '/'
         })
@@ -51,24 +51,24 @@ function checkRole(to, from, next) {
     const roles = _.flatten(to.matched.map((record) => record.meta.requiresRole))
     const missingRoles = _.compact(_.map(roles, (role) => {
       const matchingRole = _.find(scopeObject.current_user.Roles, (userRole) => {
-        return userRole.name == role
-      })
+        return userRole.name == role;
+      });
 
       if (!matchingRole) {
-        return role
+        return role;
       }
 
       return;
-    }))
+    }));
 
     //  If there are roles missing from the user, deny the routing
     if (missingRoles.length) {
-      console.warn("User attempted to access route", to.path, "and was denied")
+      console.warn('User attempted to access route', to.path, 'and was denied')
       next({
         path: '/'
-      })
+      });
     } else {
-      next()
+      next();
     }
   }
   next()
@@ -127,12 +127,12 @@ const router = new VueRouter({
         }
       ]
     },
-    { 
-      path: '/implicit/callback', 
-      component: Auth.handleCallback() 
+    {
+      path: '/implicit/callback',
+      component: Auth.handleCallback()
     },
   ]
-})
+});
 
 router.beforeEach(Vue.prototype.$auth.authRedirectGuard());
 router.beforeEach(defineScope);

@@ -11,6 +11,7 @@
         "no-new": "warn",
         "consistent-return": "off",
         "arrow-body-style": "warn",
-        "no-console": "warn"
+        "no-console": "warn",
+        "node/no-unsupported-features": "off"
     }
 }
