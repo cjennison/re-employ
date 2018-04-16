@@ -2,9 +2,12 @@
 
 # Install
 1. Install node. (https://nodejs.org/en/)
-2. Run `cp config/auth-default.json config/auth.json` and fill out. See Auth.
+2. Run `cp .env-default .env` and fill out. See Auth.
 3. Run `npm install`
 4. Run `npm run serve`
+
+# Deploy
+Deploy is run through the Procfile. The /dist folder is built at run time and is served via a simple ExpressJS server.
 
 # Auth
 We use OKTA for authentication.
