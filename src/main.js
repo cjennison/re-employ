@@ -12,6 +12,7 @@ import axios from 'axios';
 
 import _ from 'lodash';
 import UserUpdater from './services/UserUpdater';
+import Filters from './filters/index';
 
 console.log(process.env)
 
@@ -26,6 +27,8 @@ Vue.use(Auth, {
   redirect_uri: process.env.VUE_APP_REDIRECT_URI,
   scope: 'openid profile email'
 })
+
+Filters(Vue);
 
 import scopeObject from './services/scope'
 

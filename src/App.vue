@@ -53,4 +53,9 @@ export default {
       float: right;
     }
   }
+
+  #top-nav-container {
+    padding: 0px;
+  }
 </style>
+
