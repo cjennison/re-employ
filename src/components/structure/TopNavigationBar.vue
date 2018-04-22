@@ -45,3 +45,8 @@ export default {
 }
 </script>
 
+<style lang="scss">
+  .top-nav-bar {
+    background: gray;
+  }
+</style>

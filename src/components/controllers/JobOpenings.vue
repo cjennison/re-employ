@@ -3,11 +3,15 @@
     .job-openings-container(v-loading="loading")
       #job-openings-error.error-banner(v-if="!jobOpenings.length && !loading") Sorry no jobs
       #job-openings-count(v-if="jobOpenings.length") We have found {{jobOpenings.length }} jobs
-      .job-openings-list 
-        .job-opening-model(v-for="jobOpening in jobOpenings", v-on:click="selectJobOpening(jobOpening)")
-          job-opening-card(:jobOpening="jobOpening", :active="selectedJobOpening.id === jobOpening.id")
-      .job-openings-display
-        job-opening-display(:jobOpening="selectedJobOpening")
+      
+      .row
+        .col-xs-4
+          .job-openings-list 
+          .job-opening-model(v-for="jobOpening in jobOpenings", v-on:click="selectJobOpening(jobOpening)")
+            job-opening-card(:jobOpening="jobOpening", :active="selectedJobOpening.id === jobOpening.id")
+        .col-xs-8
+          .job-openings-display
+            job-opening-display(:jobOpening="selectedJobOpening")
 </template>
 
 <script>
@@ -36,6 +40,8 @@ const JobOpenings = [
   }
 ]
 
+import { store , httpAdapter } from '../../services/HttpService';
+import scopeObject from '../../services/scope';
 import JobOpeningCard from '../job-openings/JobOpeningCard.vue';
 import JobOpeningDisplay from '../job-openings/JobOpeningDisplay.vue';
 
@@ -47,12 +53,6 @@ export default {
   },
   created(){
     this.getJobOpenings()
-    .then((jobOpenings) => {
-      this.jobOpenings = jobOpenings;
-      this.loading = false;
-      this.selectedJobOpening = jobOpenings[0];
-    })
-    .catch(() => {});
   },
   data() {
     return {
@@ -61,20 +61,27 @@ export default {
       jobOpenings: []
     }
   },
+  computed: {
+    user () {
+      return scopeObject.current_user
+    }
+  },
   methods: {
     selectJobOpening(jobOpening){
       this.selectedJobOpening = jobOpening;
     },
     getJobOpenings () {
       this.loading = true;
-      const promise = new Promise((resolve, reject) => {
-        //Simulate getting data
-        setTimeout(() => {
-          resolve(JobOpenings)
-        }, 1500);
+      store.findAll('jobOpening', {}, {
+        basePath: httpAdapter.resourceBasePath('users', this.user.id)
+      }).then((jobOpenings) => {
+        this.jobOpenings = jobOpenings;
+        this.selectedJobOpening = jobOpenings[0];
+      }).catch((err) => {
+        this.error = err;
+      }).then (() => {
+        this.loading = false;
       })
-
-      return promise;
     }
   }
 }

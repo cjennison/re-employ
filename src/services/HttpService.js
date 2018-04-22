@@ -29,6 +29,11 @@ store.defineMapper('job', {
   endpoint: 'jobs'
 });
 
+store.defineMapper('jobOpening', {
+  name: 'jobOpening',
+  endpoint: 'job_openings'
+});
+
 httpAdapter.resourceBasePath = (resourceType, resourceId) => {
   return `${basePath}/${resourceType}/${resourceId}/`
 }

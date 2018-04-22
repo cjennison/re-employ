@@ -1,8 +1,8 @@
 <template lang="pug">
     .job-opening-card(:class="activeClass()")
-      .name {{ jobOpening.name }}
-      .company {{ jobOpening.company }}
-      .description {{ jobOpening.description }}
+      .name {{ jobOpening.name | truncate(100) }}
+      .company {{ jobOpening.company | truncate(100) }}
+      .description {{ jobOpening.description | truncate(100, '...') }}
 </template>
 
 <script>
