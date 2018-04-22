@@ -8,7 +8,7 @@ import Auth from '@okta/okta-vue';
 
 import VueAxios from 'vue-axios';
 import VueRouter from 'vue-router';
-import axios from 'axios';;
+import axios from 'axios';
 
 import _ from 'lodash';
 import UserUpdater from './services/UserUpdater';
