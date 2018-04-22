@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import {httpAdapter} from '../../services/HttpService';
+import { httpAdapter } from '../../services/HttpService';
 
 export default {
   name: 'job_opening_display',
@@ -20,7 +20,8 @@ export default {
   },
   methods: {
     getShortUrlHash() {
-      if (this.jobOpening.JobOpeningShortUrls && this.jobOpening.JobOpeningShortUrls.length > 0) {
+      const shortUrl = this.jobOpening.JobOpeningShortUrls;
+      if (shortURL && shortUrl.length > 0) {
         const hash = this.jobOpening.JobOpeningShortUrls[0].hash;
         return hash
       }

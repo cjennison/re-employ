@@ -40,7 +40,7 @@ const JobOpenings = [
   }
 ]
 
-import { store , httpAdapter} from '../../services/HttpService';
+import { store , httpAdapter } from '../../services/HttpService';
 import scopeObject from '../../services/scope';
 import JobOpeningCard from '../job-openings/JobOpeningCard.vue';
 import JobOpeningDisplay from '../job-openings/JobOpeningDisplay.vue';
